@@ -1,13 +1,3 @@
-/*
- * bingo.cpp
- *
- *  Created on: 2021. 10. 20.
- *      Author: jelly coding, kimYL ChoiSY
- */
-
-
-//replit 또는 리눅스에서 하세요, windows 에서는 안됨
-
 
 #include <stdio.h>
 #include <termios.h>
@@ -48,7 +38,7 @@ class TicTacToe {
 		void getUserInput(void);
 		void checkGameOver(void);
 		int gameOver = 'F';
-		char choose = 'X','O';
+		//char choose = 'X','O';
 		
 
 };
@@ -93,7 +83,6 @@ TicTacToe :: TicTacToe(char firstPlayer){
 	this->selPos.y =0;
 	currentPlayer =firstPlayer;
 	cout << "game start" << endl; 
-	cout << "game start" << endl; 
 }
 
 int getch(void);
@@ -104,9 +93,8 @@ int main(void) {
 	int y = 5;
 	TicTacToe TTTgame('A');
 
-	while(TTTgame.gameOver == 'T'){
+	while(TTTgame.gameOver == 'F'){
 		TTTgame.getUserInput();
-	
 	}
 	return 0;
 }
