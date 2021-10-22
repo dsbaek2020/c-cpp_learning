@@ -1,3 +1,13 @@
+/*
+ * bingo.cpp
+ *
+ *  Created on: 2021. 10. 20.
+ *      Author: jelly coding, kimYL ChoiSY
+ */
+
+
+//replit 또는 리눅스에서 하세요, windows 에서는 안됨
+
 
 #include <stdio.h>
 #include <termios.h>
