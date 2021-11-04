@@ -4,10 +4,23 @@
  *     Author: CSY, KLY
  */
 
-#include <iostream>
-#include <string>
+#include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <unistd.h> /*for sleep(), usleep()  */
+
+#include<iostream>
+#include<string>
+
+#define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
+#define clear() printf("\033[H\033[j]")
+#define yellow() printf("\033[0;33m]")
 
 using namespace std;
+
+int getch(void);
+
 
 enum player{
 	PLAYER_A =0,
@@ -37,8 +50,11 @@ private:
 							{ '7', '8', '9' } };
 	//char field[3][3];
 	// field[9] = {1,2,3,4,5,6,7,8,9}
+  
+void getCursor (void);
 void SetGameover(bool result);
 bool checkLine(char cell1, char cell2, char cell3);
+
 
 public:
 	tictactoe(void); //constructor
@@ -81,20 +97,67 @@ int tictactoe::checkGameover(void){
 
     return 0;
 }
+
 bool tictactoe::GetGameover(void){return gameover;}
 void tictactoe::SetGameover(bool result){gameover = result;}
 void tictactoe::drawBoard(void){
-
+  clear();
+  gotoxy(1,5);
 	for(int i =0; i<3; i++){
 		cout << gameboard[i][0] <<'|'<<gameboard[i][1] << '|' << gameboard[i][2]<< endl;
 	}
+
 }
+
+void tictactoe::getCursor(void){
+	int input;
+  Position viewCursorPos;
+	viewCursorPos.x =1;
+	viewCursorPos.y =5; 
+	//cout <<"select your position "<< endl; 
+	
+	while(1){
+    gotoxy(viewCursorPos.x,viewCursorPos.y);
+		input = getch();
+		if(input == 10){
+			break;
+		}
+
+		switch(input){
+			case 65: //printf("U");
+			viewCursorPos.y-=1;
+				break;
+			case 66: //printf ("D");
+			viewCursorPos.y+=1;
+				break;
+			case 68: //printf("L");
+      if(viewCursorPos.x >= 3){
+        viewCursorPos.x-=2;
+        }
+				break;
+			case 67: //printf("R");
+			if(viewCursorPos.x <= 3){
+        viewCursorPos.x+=2;
+        }
+				break;
+		}
+	}
+  if(viewCursorPos.x > 2){
+    cursorPos.x = (int)viewCursorPos.x * 0.5; 
+  }else{
+    cursorPos.x = (int)viewCursorPos.x-1; 
+  }
+  this->cursorPos.y = viewCursorPos.y-5;
+}
+
 void tictactoe::inputPos(void){
 	int pos;
-	cout << "위치를 입력하세요(1~9) : ";
-	cin >> pos;
-	cursorPos.x=LUT_1dto2d[pos-1].x;
-	cursorPos.y=LUT_1dto2d[pos-1].y;
+	//cout << "커서를 움직이세요 : ";
+	//cin >> pos;
+	//cursorPos.x=LUT_1dto2d[pos-1].x;
+	//cursorPos.y=LUT_1dto2d[pos-1].y;
+  getCursor();
+
 
   if((gameboard[cursorPos.y][cursorPos.x]!='o')&&
      (gameboard[cursorPos.y][cursorPos.x]!='x')){
@@ -110,8 +173,8 @@ void tictactoe::inputPos(void){
 
 
 tictactoe::tictactoe(void){
-	cursorPos.x = 0;
-	cursorPos.y = 0;
+	cursorPos.x = 1;
+	cursorPos.y = 1;
 }
 
 
@@ -119,20 +182,27 @@ tictactoe::tictactoe(void){
 int main(void){
 	char gb;
 	int i;
+  //clear();
+  //gotoxy(1,1);
 	tictactoe game;
 	while(game.GetGameover()==false){
 		game.drawBoard();
 		game.inputPos();
     game.checkGameover();
 	}
-
-/*
-for(i=0; i<3; i++){
-	if(gb[i][0] == 'x' or 'o'){
-		if(gb[i][0] == gb[i][1] == gb[i][2]){
-			break;
-		   }
-	   }
-    }
-    */
 }
+
+int getch(void) {
+    struct termios oldt,
+    newt;
+    int            ch;
+    tcgetattr( STDIN_FILENO, &oldt );
+    newt = oldt;
+    newt.c_lflag &= ~( ICANON | ECHO );
+    tcsetattr( STDIN_FILENO, TCSANOW, &newt );
+    ch = getchar();
+    tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
+    return ch;
+}
+
+
