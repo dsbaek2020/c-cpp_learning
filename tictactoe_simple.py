@@ -76,10 +76,41 @@ public:
 	int checkGameover(void);
 	bool GetGameover(void);
 	player getWinner(void);
+  unsigned char getGameCount(void);
 	void writeReplayData(void);
+  void readReplayData(int recordIndex);
+  void resetgameboard(void);
 
 	ReplayInfo PlayData[9];
 };
+
+void tictactoe::resetgameboard(void){
+
+  for(int j=0; j<3; j++){
+    for(int i=0; i<3; i++){
+    gameboard[j][i] = '_';
+    }
+  }
+}
+
+void tictactoe::readReplayData(int recordIndex){
+  ReplayInfo readData;
+  readData = PlayData[recordIndex];
+
+  cursorPos.x=LUT_1dto2d[readData.wherePosition-1].x;
+	cursorPos.y=LUT_1dto2d[readData.wherePosition-1].y;
+
+  if(readData.PlayerName==PLAYER_A){
+    gameboard[cursorPos.y][cursorPos.x]='o';
+
+  }else{
+    gameboard[cursorPos.y][cursorPos.x]='x';
+  }
+}
+
+unsigned char tictactoe::getGameCount(void){
+  return GameCount;
+}
 
 //
 void tictactoe::writeReplayData(void){
@@ -149,7 +180,10 @@ int tictactoe::checkGameover(void){
     return 0;
 }
 
-bool tictactoe::GetGameover(void){return gameover;}
+bool tictactoe::GetGameover(void){
+  return gameover;
+}
+
 void tictactoe::SetGameover(bool result){gameover = result;}
 
 void tictactoe::drawBoard(void){
@@ -244,12 +278,14 @@ tictactoe::tictactoe(void){
 int main(void){
 	char gb;
 	int i;
+  string answer;
 	string playerID[2] ={"o", "x"};
 	ReplayInfo replayInfo;
 
 	//clear();
 	//gotoxy(1,1);
 	tictactoe game;
+  
 
 	while(game.GetGameover()==false){
 		game.drawBoard();
@@ -262,6 +298,34 @@ int main(void){
 
 	// y = 'A' or 'B' , x=winnerPlayer {PLAYER_A or PLAYER_B}
 	cout<< playerID[game.getWinner()] << " is winner" <<endl;
+
+  cout<<"게임을 재시작 하시겠습니까?(yes or no)"<<endl;
+  cin>>answer;
+  
+  unsigned char j=0;
+  if(answer=="yes"){
+    game.resetgameboard();
+
+    while(true){
+      
+      game.readReplayData(j);
+      game.drawBoard();
+
+      sleep(1);
+
+
+      j++;
+      if(j==game.getGameCount()){
+        break;
+      } 
+    }
+
+
+
+
+  }else{
+    cout<<"게임이 끝났습니다"<<endl;
+  }
 }
 
 int getch(void) {
