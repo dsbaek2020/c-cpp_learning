@@ -2,11 +2,11 @@
  *  tictactoe_simple.cpp
  * Created on: 2021. 10. 27.
  *     Author: CSY, KLY
-	
+
  *  ---업데이트 내용---
  *  새로운 checkwinner 알고리즘 실험
- *  winner를 마지막에 디스플레이  
- */
+ *  winner를 마지막에 디스플레이
+ *   */
 
 #include <stdio.h>
 #include <termios.h>
@@ -33,7 +33,7 @@ enum player{
 
 class ReplayInfo{
   public:
-    char PlayerName;
+    player PlayerName;
     unsigned char wherePosition;
 };
 
@@ -46,42 +46,46 @@ public:
 
 class tictactoe{
 private:
-  unsigned char GameCount;
+	unsigned char GameCount;
 	int x; //player1 first
 	int o; //player2
 	Position cursorPos;
-	Position LUT_1dto2d[9] = { {0,0}, {0,1}, {0,2},
-					                	{1,0}, {1,1}, {1,2},
-				                		{2,0}, {2,1}, {2,2} };
-                            
-  player nextPlayer = PLAYER_A;
+	unsigned char wherePosition;
+	Position LUT_1dto2d[9] = {  {0,0}, {0,1}, {0,2},
+									{1,0}, {1,1}, {1,2},
+									{2,0}, {2,1}, {2,2} };
+
+	player nextPlayer = PLAYER_A;
 	player currentPlayer;
-  player winnerPlayer;
+	player winnerPlayer;
 	bool gameover = false;
 
 	char gameboard[3][3] = {{ '1', '2', '3' },
-							{ '4', '5', '6' },
-							{ '7', '8', '9' } };
+	{ '4', '5', '6' },
+	{ '7', '8', '9' } };
 
-  
-  
-	//char field[3][3];
-	// field[9] = {1,2,3,4,5,6,7,8,9}
-  
-void getCursor (void);
-void SetGameover(bool result);
-bool checkLine(char cell1, char cell2, char cell3);
+	void getCursor (void);
+	void SetGameover(bool result);
+	bool checkLine(char cell1, char cell2, char cell3);
 
 
 public:
 	tictactoe(void); //constructor
 	void drawBoard(void);
-	void inputPos(void);
+	bool inputPos(void);
 	int checkGameover(void);
-  bool GetGameover(void);
-  player getWinner(void);
-  ReplayInfo PlayHistory[9];
+	bool GetGameover(void);
+	player getWinner(void);
+	void writeReplayData(void);
+
+	ReplayInfo PlayData[9];
 };
+
+//
+void tictactoe::writeReplayData(void){
+	PlayData[GameCount].PlayerName = currentPlayer;
+	PlayData[GameCount].wherePosition = wherePosition;
+}
 
 player tictactoe::getWinner(void){
   return winnerPlayer;
@@ -89,9 +93,9 @@ player tictactoe::getWinner(void){
 
 bool  tictactoe::checkLine(char cell1, char cell2, char cell3){
   if(cell1== cell2 && cell2 == cell3){
-    return true; 
+    return true;
   }else {
-    return false; 
+    return false;
   }
 }
 
@@ -147,24 +151,24 @@ int tictactoe::checkGameover(void){
 
 bool tictactoe::GetGameover(void){return gameover;}
 void tictactoe::SetGameover(bool result){gameover = result;}
+
 void tictactoe::drawBoard(void){
   clear();
   gotoxy(1,5);
 	for(int i =0; i<3; i++){
 		cout << gameboard[i][0] <<'|'<<gameboard[i][1] << '|' << gameboard[i][2]<< endl;
 	}
-
 }
 
 void tictactoe::getCursor(void){
 	int input;
-  Position viewCursorPos;
+	Position viewCursorPos;
 	viewCursorPos.x =1;
-	viewCursorPos.y =5; 
-	//cout <<"select your position "<< endl; 
-	
+	viewCursorPos.y =5;
+	//cout <<"select your position "<< endl;
+
 	while(1){
-    gotoxy(viewCursorPos.x,viewCursorPos.y);
+		gotoxy(viewCursorPos.x,viewCursorPos.y);
 		input = getch();
 		if(input == 10){
 			break;
@@ -173,91 +177,91 @@ void tictactoe::getCursor(void){
 		switch(input){
 			case 65: //printf("U");
 			viewCursorPos.y-=1;
-				break;
+			break;
+
 			case 66: //printf ("D");
 			viewCursorPos.y+=1;
-				break;
+			break;
+
 			case 68: //printf("L");
-      if(viewCursorPos.x >= 3){
-        viewCursorPos.x-=2;
-        }
-				break;
+			if(viewCursorPos.x >= 3){
+				viewCursorPos.x-=2;
+			}
+			break;
+
 			case 67: //printf("R");
 			if(viewCursorPos.x <= 3){
-        viewCursorPos.x+=2;
-        }
-				break;
-		}
+				viewCursorPos.x+=2;
+			}
+			break;
+			}
 	}
-  if(viewCursorPos.x > 2){
-    cursorPos.x = (int)viewCursorPos.x * 0.5; 
-  }else{
-    cursorPos.x = (int)viewCursorPos.x-1; 
-  }
-  this->cursorPos.y = viewCursorPos.y-5;
+	if(viewCursorPos.x > 2){
+		cursorPos.x = (int)viewCursorPos.x * 0.5;
+	}else{
+		cursorPos.x = (int)viewCursorPos.x-1;
+	}
+	this->cursorPos.y = viewCursorPos.y-5;
 }
 
-void tictactoe::inputPos(void){
+bool tictactoe::inputPos(void){
 	int pos;
 	//cout << "커서를 움직이세요 : ";
 	//cin >> pos;
 	//cursorPos.x=LUT_1dto2d[pos-1].x;
 	//cursorPos.y=LUT_1dto2d[pos-1].y;
-  getCursor();
+	getCursor();
 
-  pos = (cursorPos.y+1)*3 + (cursorPos.x+1);
+	pos = (cursorPos.y+1)*3 + (cursorPos.x+1);
+	wherePosition = pos;
 
-  if((gameboard[cursorPos.y][cursorPos.x]!='o')&&
-     (gameboard[cursorPos.y][cursorPos.x]!='x')){
+	if((gameboard[cursorPos.y][cursorPos.x]!='o')&&
+	 (gameboard[cursorPos.y][cursorPos.x]!='x')){
+		currentPlayer = nextPlayer;
 
-    currentPlayer = nextPlayer;
-    PlayHistory[GameCount].PlayerName = currentPlayer;
-    PlayHistory[GameCount].wherePosition = pos;
-    
-    GameCount++;
-    if(currentPlayer == PLAYER_A){
-      gameboard[cursorPos.y][cursorPos.x]='o';
-      nextPlayer = PLAYER_B;
-    }else { //playerB
-      gameboard[cursorPos.y][cursorPos.x]='x';
-      nextPlayer = PLAYER_A;
-    }
+		GameCount++;
 
-  }
+		if(currentPlayer == PLAYER_A){
+		  gameboard[cursorPos.y][cursorPos.x]='o';
+		  nextPlayer = PLAYER_B;
+		}else { //playerB
+		  gameboard[cursorPos.y][cursorPos.x]='x';
+		  nextPlayer = PLAYER_A;
+		}
+		return true;
+	}else{
+		return false;
+	}
+
 }
-
 
 tictactoe::tictactoe(void){
 	cursorPos.x = 1;
 	cursorPos.y = 1;
-  GameCount =0;
+	GameCount =0;
 }
 
-
-
-// T E M P
 int main(void){
 	char gb;
 	int i;
-  string playerID[2] ={"789o", "x"};
- 
+	string playerID[2] ={"o", "x"};
+	ReplayInfo replayInfo;
 
-  //clear();
-  //gotoxy(1,1);
+	//clear();
+	//gotoxy(1,1);
 	tictactoe game;
 
 	while(game.GetGameover()==false){
 		game.drawBoard();
-		game.inputPos();
-    game.checkGameover();
+		if( game.inputPos() == true ){
+			game.writeReplayData();
+		}
+		game.checkGameover();
 	}
-  game.drawBoard();
+	game.drawBoard();
 
-  // y = 'A' or 'B' , x=winnerPlayer {PLAYER_A or PLAYER_B}  
-  cout<< playerID[game.getWinner()] << " is winner" <<endl;
-
-
-  
+	// y = 'A' or 'B' , x=winnerPlayer {PLAYER_A or PLAYER_B}
+	cout<< playerID[game.getWinner()] << " is winner" <<endl;
 }
 
 int getch(void) {
