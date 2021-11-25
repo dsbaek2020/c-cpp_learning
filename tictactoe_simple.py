@@ -34,7 +34,7 @@ enum player{
 class ReplayInfo{
   public:
     player PlayerName;
-    unsigned char wherePosition;
+    unsigned char  wherePosition;
 };
 
 class Position{
@@ -116,6 +116,16 @@ unsigned char tictactoe::getGameCount(void){
 void tictactoe::writeReplayData(void){
 	PlayData[GameCount].PlayerName = currentPlayer;
 	PlayData[GameCount].wherePosition = wherePosition;
+
+  gotoxy(1,13);
+  cout<< "currentPlayer = " << currentPlayer << endl;
+  
+  cout<< "wherePosition = ";
+  //char 변수는 1-byte 정수(integer)다. 그러나 char 자료형이 정수 일지라도 일반 정수와는 다른 방식으로 사용한다. 그래서 char 값을 //정수로 해석하는 대신 ASCII code 문자로 해석한다.
+  //출처: https://boycoding.tistory.com/154 [소년코딩]
+  cout << static_cast<int> (wherePosition) << endl;
+
+  GameCount++;
 }
 
 player tictactoe::getWinner(void){
@@ -152,19 +162,20 @@ int tictactoe::checkGameover(void){
       }
     }
 
-    /*for(int i=0; i<3; i++){
+    for(int i=0; i<3; i++){
       if(checkLine(gameboard[i][0],gameboard[i][1],gameboard[i][2])){
         SetGameover(true);
         break;
       }
-    }*/
+    }
+    /*
     for(int j=0; j<3; j++){
       if(checkLine(gameboard[0][j],gameboard[1][j],gameboard[2][j])){
         SetGameover(true);
         winnerPlayer = currentPlayer;
         break;
       }
-    }
+    }*/
     if(checkLine(gameboard[0][0],gameboard[1][1] ,gameboard[2][2])){
       SetGameover(true);
       winnerPlayer = currentPlayer;
@@ -239,21 +250,21 @@ void tictactoe::getCursor(void){
 }
 
 bool tictactoe::inputPos(void){
-	int pos;
+	unsigned char  pos;
 	//cout << "커서를 움직이세요 : ";
 	//cin >> pos;
 	//cursorPos.x=LUT_1dto2d[pos-1].x;
 	//cursorPos.y=LUT_1dto2d[pos-1].y;
 	getCursor();
 
-	pos = (cursorPos.y+1)*3 + (cursorPos.x+1);
+  //todo pos계산이 스크린의 커서를 이용한 부분에 있어서 잘못 계산되고 있음 확인해야함
+//pos = (cursorPos.y+1)*3 + (cursorPos.x+1);
+  pos = (cursorPos.y  )*3   + (cursorPos.x+1);
 	wherePosition = pos;
 
 	if((gameboard[cursorPos.y][cursorPos.x]!='o')&&
 	 (gameboard[cursorPos.y][cursorPos.x]!='x')){
 		currentPlayer = nextPlayer;
-
-		GameCount++;
 
 		if(currentPlayer == PLAYER_A){
 		  gameboard[cursorPos.y][cursorPos.x]='o';
@@ -299,7 +310,7 @@ int main(void){
 	// y = 'A' or 'B' , x=winnerPlayer {PLAYER_A or PLAYER_B}
 	cout<< playerID[game.getWinner()] << " is winner" <<endl;
 
-  cout<<"게임을 재시작 하시겠습니까?(yes or no)"<<endl;
+  cout<<"show review?(yes or no)"<<endl;
   cin>>answer;
   
   unsigned char j=0;
@@ -321,8 +332,6 @@ int main(void){
     }
 
 
-
-
   }else{
     cout<<"게임이 끝났습니다"<<endl;
   }
@@ -340,5 +349,6 @@ int getch(void) {
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
     return ch;
 }
+
 
 
