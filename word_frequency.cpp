@@ -61,6 +61,19 @@ int main() {
 
     } 
  
+
+
+    cout  << "\n\ntotal word"  << " = " << wordCount.size() << "\n";
+    cout  << " word" << setw(16) << " : " << setw(3) << "num" << "\n";
+   
+
+    for (const auto& [key, value] : wordCount){
+      cout << "[" << key << setw(20-key.size()) << " : " << setw(3) << value << "]\n";
+    }
+    cout << "-------end--------" << endl;
+}
+
+
 //C++에서 맵을 반복하는 방법
 //https://www.delftstack.com/ko/howto/cpp/how-to-iterate-over-map-in-cpp/
 //https://www.delftstack.com/ko/howto/cpp/
@@ -78,16 +91,5 @@ int main() {
 
 //output formating.    #include <iomanip>
 //http://faculty.cs.niu.edu/~mcmahon/CS241/c241man/node83.html
-
-
-    cout  << "\n\ntotal word"  << " = " << wordCount.size() << "\n";
-    cout  << " word" << setw(16) << " : " << setw(3) << "num" << "\n";
-   
-
-    for (const auto& [key, value] : wordCount){
-      cout << "[" << key << setw(20-key.size()) << " : " << setw(3) << value << "]\n";
-    }
-    cout << "-------end--------" << endl;
-}
 
   
