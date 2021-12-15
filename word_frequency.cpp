@@ -7,24 +7,6 @@
 #include <iomanip>
 using namespace std; 
 
-//C++에서 맵을 반복하는 방법
-//https://www.delftstack.com/ko/howto/cpp/how-to-iterate-over-map-in-cpp/
-//https://www.delftstack.com/ko/howto/cpp/
-
-//C++ Map을 value 기준으로 정렬하기
-//https://unluckyjung.github.io/cpp/2020/05/07/Sort_map_by_value/
-
-//특정 문자만 제거하는 방법
-//https://popawaw.tistory.com/52
-//http://daplus.net/c-c-의-문자열에서-특정-문자를-제거하는-방법은-무엇/
-
-//특정문자의 위치 찾기
-//https://sweetnew.tistory.com/85
-//
-
-//output formating.    #include <iomanip>
-//http://faculty.cs.niu.edu/~mcmahon/CS241/c241man/node83.html
-
 
 //--------출처: https://www.lifencoding.com/language/22?p=1 ---------------
 vector<string> split(string Text, char Delimiter) {
@@ -78,6 +60,25 @@ int main() {
       }
 
     } 
+ 
+//C++에서 맵을 반복하는 방법
+//https://www.delftstack.com/ko/howto/cpp/how-to-iterate-over-map-in-cpp/
+//https://www.delftstack.com/ko/howto/cpp/
+
+//C++ Map을 value 기준으로 정렬하기
+//https://unluckyjung.github.io/cpp/2020/05/07/Sort_map_by_value/
+
+//특정 문자만 제거하는 방법
+//https://popawaw.tistory.com/52
+//http://daplus.net/c-c-의-문자열에서-특정-문자를-제거하는-방법은-무엇/
+
+//특정문자의 위치 찾기
+//https://sweetnew.tistory.com/85
+//
+
+//output formating.    #include <iomanip>
+//http://faculty.cs.niu.edu/~mcmahon/CS241/c241man/node83.html
+
 
     cout  << "\n\ntotal word"  << " = " << wordCount.size() << "\n";
     cout  << " word" << setw(16) << " : " << setw(3) << "num" << "\n";
