@@ -315,6 +315,7 @@ int main(void){
   
   unsigned char j=0;
   if(answer=="yes"){
+    clear();
     game.resetgameboard();
 
     while(true){
@@ -349,6 +350,5 @@ int getch(void) {
     tcsetattr( STDIN_FILENO, TCSANOW, &oldt );
     return ch;
 }
-
 
 
