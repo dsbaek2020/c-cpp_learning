@@ -16,48 +16,49 @@ SPLIT cin .. item -> inventory
 
 using namespace std;
 
+
 vector<string> split(string Text, char Delimiter);
 
 int main(){
 
-vector<string> item{"key","uselesskey","poison","potion",
-                    "dust","juice","prawn","rottenbanana"};
+       vector<string> item{"key","uselesskey","poison","potion",
+                           "dust","juice","prawn","rottenbanana"};
 
-vector<string> inventory;
-//inventory.push_back("key");
- // cout << "inventory = " << inventory[0] <<endl;
+       vector<string> inventory;
+       //inventory.push_back("key");
+        // cout << "inventory = " << inventory[0] <<endl;
 
 
-//room pos(use L/R) and items 
-map<string, map<string, string>> gameMap;
-map<string, string> hall;
-hall["left"] = "kitchen";
-hall["right"] = "bedroom";
-hall["item"] = "juice dust";
-// how
+       //room pos(use L/R) and items 
+       map<string, map<string, string>> gameMap;
+       map<string, string> hall;
+       hall["left"] = "kitchen";
+       hall["right"] = "bedroom";
+       hall["item"] = "juice dust";
+       // how
 
-map<string, string> kitchen;
-kitchen["left"] = "toilet";
-kitchen["right"] = "hall";
-kitchen["item"] = "prawn rottenbanana";
+       map<string, string> kitchen;
+       kitchen["left"] = "toilet";
+       kitchen["right"] = "hall";
+       kitchen["item"] = "prawn rottenbanana";
 
-map<string, string> toilet;
-toilet["left"] = "bedroom";
-toilet["right"] = "kitchen";
-toilet["item"] = "key poison";
+       map<string, string> toilet;
+       toilet["left"] = "bedroom";
+       toilet["right"] = "kitchen";
+       toilet["item"] = "key poison";
 
-map<string, string> bedroom;
-bedroom["left"] = "hall";
-bedroom["right"] = "toilet";
-bedroom["item"] = "uselesskey potion";
+       map<string, string> bedroom;
+       bedroom["left"] = "hall";
+       bedroom["right"] = "toilet";
+       bedroom["item"] = "uselesskey potion";
 
-gameMap["hall"]=hall;
-gameMap["kitchen"]=kitchen;
-gameMap["toilet"]=toilet;
-gameMap["bedroom"]=bedroom;
+       gameMap["hall"]=hall;
+       gameMap["kitchen"]=kitchen;
+       gameMap["toilet"]=toilet;
+       gameMap["bedroom"]=bedroom;
 
-string currentRoom = "hall";
-string nextRoom;
+       string currentRoom = "hall";
+       string nextRoom;
 /*
  gameMap["hall"]=hall;
   cout << "[hall][item] = " << gameMap["hall"]["item"] <<endl;
@@ -71,7 +72,7 @@ string nextRoom;
     cout << "+-------------------------------------------------+" <<endl;
 
  // cout << "CAN YOU GET OUT? FIND CORRECT ITEM AND ESCAPE"  <<endl;
-  cout << "   Move : [go (left/right)]\n   Item : [get (item name)]"<<endl;
+    cout << "   Move : [go (left/right)]\n   Item : [get (item name)]"<<endl;
 
 
   //cout << "---------string split test----------"<<endl;
@@ -131,6 +132,8 @@ string nextRoom;
 
 }
 
+//문자열 분리해서 백터로 만들어 주는 함수 
+//-출처: https://www.lifencoding.com/language/22?p=1
 vector<string> split(string Text, char Delimiter){
   istringstream iss(Text);             // istringstream에 str을 담는다.
   string buffer;                      // 구분자를 기준으로 절삭된 문자열이 담겨지는 버퍼
