@@ -3,6 +3,10 @@
 // 제작자: KYL, CSY, BDS
 // 2022.2.24
 
+// 이코드는 익스플로링 라즈베리파이 (위키북스) <저자: Derek Molloy> 를 참고하였습니다.
+// 원본 프로젝트 github 주소는 아래와 같습니다.
+// https://github.com/derekmolloy/exploringrpi/tree/master/chp09/ldr
+
 #include <iostream>
 #include "bus/SPIDevice.h"
 #include <unistd.h>
