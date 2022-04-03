@@ -32,75 +32,50 @@ void help(void);
 void door(void);
 
 
-/*
-//class define student 
-class student{
-public:
-string name;
-double result;
-};
 
 
 int main(){
 
-vector<student> record;
-
-student data;
-
-data.name = "";
-data.result = 3.2;
-record.push_back(data);
-
-data.name = "";
-data.result = 2.9;
-record.push_back(data);
 
 
+    vector<string> item{"key","uselesskey","poison","potion",
+                        "dust","juice","prawn","rottenbanana"};
 
-for(int i; i<r)
-
-//record[i].result;
-*/
-
-
-vector<string> item{"key","uselesskey","poison","potion",
-                    "dust","juice","prawn","rottenbanana"};
-
-vector<string> inventory;
-//inventory.push_back("key");
- // cout << "inventory = " << inventory[0] <<endl;
+    vector<string> inventory;
+    //inventory.push_back("key");
+     // cout << "inventory = " << inventory[0] <<endl;
 
 
-//room pos(use L/R) and items 
-map<string, map<string, string>> gameMap;
-map<string, string> hall;
-hall["left"] = "kitchen";
-hall["right"] = "bedroom";
-hall["item"] = "juice dust";
-// how
+    //room pos(use L/R) and items 
+    map<string, map<string, string>> gameMap;
+    map<string, string> hall;
+    hall["left"] = "kitchen";
+    hall["right"] = "bedroom";
+    hall["item"] = "juice dust";
+    // how
 
-map<string, string> kitchen;
-kitchen["left"] = "toilet";
-kitchen["right"] = "hall";
-kitchen["item"] = "prawn rottenbanana";
+    map<string, string> kitchen;
+    kitchen["left"] = "toilet";
+    kitchen["right"] = "hall";
+    kitchen["item"] = "prawn rottenbanana";
 
-map<string, string> toilet;
-toilet["left"] = "bedroom";
-toilet["right"] = "kitchen";
-toilet["item"] = "key poison";
+    map<string, string> toilet;
+    toilet["left"] = "bedroom";
+    toilet["right"] = "kitchen";
+    toilet["item"] = "key poison";
 
-map<string, string> bedroom;
-bedroom["left"] = "hall";
-bedroom["right"] = "toilet";
-bedroom["item"] = "uselesskey potion";
+    map<string, string> bedroom;
+    bedroom["left"] = "hall";
+    bedroom["right"] = "toilet";
+    bedroom["item"] = "uselesskey potion";
 
-gameMap["hall"]=hall;
-gameMap["kitchen"]=kitchen;
-gameMap["toilet"]=toilet;
-gameMap["bedroom"]=bedroom;
+    gameMap["hall"]=hall;
+    gameMap["kitchen"]=kitchen;
+    gameMap["toilet"]=toilet;
+    gameMap["bedroom"]=bedroom;
 
-string currentRoom = "hall";
-string nextRoom = currentRoom;
+    string currentRoom = "hall";
+    string nextRoom = currentRoom;
 /*
  gameMap["hall"]=hall;
   cout << "[hall][item] = " << gameMap["hall"]["item"] <<endl;
