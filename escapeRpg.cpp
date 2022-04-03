@@ -1,10 +1,16 @@
-/* Blind Escape RPG in C++
- * Created on: 2021. 12. 16. 
+/* Blind Escape RPG in C++ 
+ English Version
+ 
+ * Created on: 2021. 12. 16.  / 2022. 1. 6 / 
  *     Author: CSY
        Support: BDS
 
 item 2개 이상
 SPLIT cin .. item -> inventory
+
+수정할것 : get item 부분 inventory[0]을
+          인벤토리에 저장된 아이템의 양만큼 가변시키기 /1.13
+
 
  */
 
@@ -22,8 +28,40 @@ void showVector(vector<string> &vect);
 
 template <class myCollection, class myItem>  
 int findIndex(const myCollection &arr, myItem item);
+void help(void);
+void door(void);
+
+
+/*
+//class define student 
+class student{
+public:
+string name;
+double result;
+};
+
 
 int main(){
+
+vector<student> record;
+
+student data;
+
+data.name = "";
+data.result = 3.2;
+record.push_back(data);
+
+data.name = "";
+data.result = 2.9;
+record.push_back(data);
+
+
+
+for(int i; i<r)
+
+//record[i].result;
+*/
+
 
 vector<string> item{"key","uselesskey","poison","potion",
                     "dust","juice","prawn","rottenbanana"};
@@ -62,7 +100,7 @@ gameMap["toilet"]=toilet;
 gameMap["bedroom"]=bedroom;
 
 string currentRoom = "hall";
-string nextRoom;
+string nextRoom = currentRoom;
 /*
  gameMap["hall"]=hall;
   cout << "[hall][item] = " << gameMap["hall"]["item"] <<endl;
@@ -75,11 +113,13 @@ string nextRoom;
     cout << "|                                                 |"  <<endl;               
     cout << "+-------------------------------------------------+" <<endl;
     
-    cout << "   Move : [go (left/right)]\n   Item : [get (item name)]"<<endl;
+   help();
+   cout << "if need help : input <help me> " <<endl;
+    
   while (true){
 
     // cout << "CAN YOU GET OUT? FIND CORRECT ITEM AND ESCAPE"  <<endl;
-      //cout << "   Move : [go (left/right)]\n   Item : [get (item name)]"<<endl;
+      
 
 
       //cout << "---------string split test----------"<<endl;
@@ -91,14 +131,14 @@ string nextRoom;
 
       cout << "--------------------------------------" <<endl;
 
-      cout<< "현재위치는 " << currentRoom << " 이며," <<endl;
+      cout<< "You are in " << currentRoom << " ..." <<endl;
 
       vector<string> items;
       string itemString = gameMap[currentRoom]["item"];
       items = split(itemString, ' ');
-      cout<< "여기에 있는 아이템은 ";
+      cout<< "here's item : ";
       showVector(items);
-      cout<< "입니다."<<endl;
+      cout<< " "<<endl;
 
       cout<< "inventory = [";
       showVector(inventory);
@@ -121,12 +161,48 @@ string nextRoom;
           if(direction == "left" ||direction == "right"){
             nextRoom = gameMap[currentRoom][direction];
           }
+      }else if (cmd == "help"){
+        help();
+      }else if (cmd == "door"){
+        door();
+        break;
+      
       }else if (cmd == "get"){
           //if param in gameMap[currentRoom]['item']:
           items = split(gameMap[currentRoom]["item"], ' ');
           int index = findIndex( items, param);
           if (index >= 0){
             inventory.push_back(param); //add to inventory
+
+
+            //인벤토리 ++ 수정
+            
+            //GET ITEM 
+            if(inventory[0] == "dust"){
+              cout<< "this room is so dusty" <<endl;
+            }else if(inventory[0] == "juice"){
+              cout<< "this juice was poison...\n you got poisoned. \n GAME OVER" <<endl;
+              break;
+            }else if(inventory[0] == "prawn"){
+              cout<< "you have shellfish allergy.. \n GAME OVER "<<endl;
+              break;
+            }else if(inventory[0] == "rottenbanana"){
+              cout<< "this banana is rotten.. you got food poisoning... \n GAME OVER" <<endl;
+              break;
+            }else if(inventory[0] == "key"){
+              cout<< "say door open" <<endl;
+            }else if(inventory[0] == "poison"){
+              cout<< "why? i said poison.. \n GAME OVER" <<endl;
+              break;
+            }else if(inventory[0] == "uselesskey"){
+              cout<< "useless key is useless" <<endl;
+            }else if(inventory[0] == "potion"){
+              cout<< "you will healthy" <<endl;
+            }
+
+          
+             
+            
 
             
             vector <string> tempItem;
@@ -137,18 +213,22 @@ string nextRoom;
 
             //*** 아래에 더 구현 필요 (템프벡터에 있는 모든 아이템을 
             //문자열로 변환하고 다시 게임맵[현재방]에 있는 아이템에 넣기 ***
-            /* 여기에 더 구현하시오~~~~~~~~ 해보세요 ㅜㅜ ----
             
-            */
-            
-          
-
+            string witem;
+            for( int i =0; i< tempItem.size(); i++){
+              if( i>0 && i<(tempItem.size()-1) ){
+                witem += tempItem[i]+' ';
+              }else{
+                witem += tempItem[i];
+              }
+            }
+            gameMap[currentRoom]["item"] = witem;
 
           }else{
-            cout<<"try again" <<endl;
+            cout<<"TRY AGAIN" <<endl;
           }
       }else{
-        cout << "잘못입력하셨습니다.";
+        cout << "잘못입력하셨습니다."<<endl;
       }
 
       currentRoom = nextRoom;
@@ -194,6 +274,22 @@ vector<string> split(string Text, char Delimiter){
 
 }
 
+void help(void){
+   cout << "   Move : [go (left/right)]\n   Item : [get (item name)]"<<endl;
+}
+
+
+void door(void){
+   cout << "congratulations you escaped!\n"<<endl;
+  cout <<  " /]_____/] " <<endl;
+  cout << "/  o   o  ] " <<endl;
+  cout <<"( ==  ^  == ) " <<endl;
+  cout << " )         ( " <<endl;
+  cout <<"(           ) " <<endl;
+  cout <<"( (  )   (  ) ) "<<endl;
+ cout <<"(__(__)___(__)__) "<<endl;
+ 
+}
 /*
     +----------------------=---+
      You Are In..[Room]      
